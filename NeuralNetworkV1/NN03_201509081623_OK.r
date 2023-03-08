@@ -27,7 +27,8 @@ yy <- as.numeric(xx<(-.5) | xx>.5)
 # 1 1 1
 #   2
 
-couches <- c(1,4,1)
+couches <- c(1,10,1)
+# couches <- c(1,7,7,1)
 #couches <- c(2,3,3,1)
 coucheswithbias <- couches+1
 coucheswithbias[length(coucheswithbias)] <- coucheswithbias[length(coucheswithbias)]-1

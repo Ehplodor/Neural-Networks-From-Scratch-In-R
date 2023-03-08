@@ -1,0 +1,27 @@
+     # -> SENS ->
+
+         # 2
+        # / \
+# INPUT->1   4->OUTPUT
+        # \ /
+         # 3
+# REPRESENTATION MATRICIELLE : LIRE LE NEURONE DE LA LIGNE i EST CONNECTE AU NEURONE DE LA COLONNE J dans le sens i vers j SI (i,j)=1.
+# \j
+# i\ 1 2 3 4
+ # 1 X 1 1 0
+ # 2 0 X 0 1
+ # 3 0 0 X 1
+ # 4 0 0 0 X
+#
+
+# dans l'exemple ci-dessus, le neurone 1 est connecté aux neurones 2 et 3 dans les sens 1 vers 2 et 1 vers 3. Les neuriones 2 et 3 sont tous deux connectés au neurone 4 dans le sens 2 vers 4 et 3 vers 4. Il n'y a donc pas de connection dans le sens retour.
+
+# on peut imaginer un réseau de neurone complètement connecté, avec des émetteurs de signal, et des accumulateurs de signal. Les accumulateurs permettent de "lire" la sortie du réseau, et c'est l'accumulateur le plus chargé qui "gagne". les émetteurs de signal envoie un signal en continu pour activer le réseau de neurone. Ensuite, le réseau traite l'information automatiquement en propageant de neurone en neurone, chaque neurone accumulant de l'énergie chimique jusqu'à éctiver et transmettre le potentiel d'action.
+
+# le réseau doit avoir une représentation personemlle de son environnement, et il doit en permanence le "prédire" à partir des données qu'il reçoit et de son modèle personnel. A toutr instant, il ne peut se focaliser que sur un seul "objet" d'un sens donné. Par exemple, pour la vue, seul la zone centrale est véritablement analysée. Lors de la lecture des lettres du clavier d'un ordinateur, si on regarde une lettre et qu'on la fixe, on arive pas à lire les lettres à proximité. pourtant on les "voit". Par contre, le réseau possède une représentation de son environnement. Lors de la lecture d'une lettre en une position donnée de l'environnement perçu, la représentation est mise à jour. C'est comme ça probablement qu'on "lit" des mots et des phrases. On voit chaque lettre, l'interprete et lui donne du sens, et on intègre cette lettre dans l'objet plus globl qu'on est en train d'observer, mais qui ne tient pas tout entier dans la zone centrale. En fait, on peut à force reconnaitre des objets plus géréraux tels que des mots, mais il faut prendre du recul pour, en quelque sorte, lire le mot d'un coup, reconnaitre sa forme pour pouvoir l'interpréter et lui donner du sens dans sa globalité. Cela demande que le mot, ou la partie la plus significative du mot, tienne tout entier dans la zone centrale, qu'on pourrait appeler la "zone de sens", ou la "zone qui donne du sens à un objet unitaire". 
+
+# un mécanisme est nécessaire pour guider l'attention du réseau vers les objets nécessaires pour mettre à jour de manière intéressante sa représentation de l'objet étudié et du monde. Le réseau doit avoir "envie d'aller plus loin", "envie d'étudier plus en avant l'objet de son attention", ou en tout cas quelquechose doit "le pousser à continuer" "dans un sens particulier". Si par exemple l'objet de son attention, "l'objet d'étude", est un mot, le réseau qui commence à interpréter le mot doit le "visualiser", le "modéliser", dans son ensemble pour commencer, afin de savoir où commencer l'étude. puis on se concentre sur une lettre ou un groupe de lettre si on est assez entrainé. L'objectif n'est donc pas d'analyser une image, par exemple, dans son ensemble, mais de porter l'attention du réseau sur un objet à étudier. C'est une sorte de mécanisme récursif car au sein de l'objet à étudier, on peut l'identifier de manière globale : "c'est un mot", "c'est une plaque d'immatriculation", puis porter l'attention au sein de cet objet sur une partie de l'objet d'étude, par exemple : "la plaque d'immatriculation comporte un "mot", puis au sein du mot : on peut souhaiter porter l'attention sur la suite de lettres composant le mot. Cette suite de lettre n'est pas tout à fait un mot. on a appris qu'il fallait commencer par la gauche en francais alors on va porter l'attention sur la premiere lettre du mot, l'identifier, lui donner du sens, pour mettre à jour notre reporésentation du mot comme commençant par cette lettre. Puis on va faire dériver notre attention vers la droite car on sait, on a appris qu'il faut aller vers la droite pour lire la lettre suivante. on identifie la lettre et on passe à la suivante en oubliant pas au passage de mettre à jour le "mot" et de donner du sens à ce mot doont on a identifié les deux ou trois premières lettres. Si on arive à donner du sens à ce mot, et qu'on est pas forcé de terminer la suite de lettre car on est en train de lire une phrase et "connaitre le sens " du mot est suffisant, alors on peut passer zu suivant. mais il est quand même préférable de "lire =" les les=ttres du mot jusqu'au bout, pour vérifier le temps auquel il est conjugué par exemple. Si c'est une plaque d'immatri=iculation, on sait que toutes les lettres coilotent alors il n'est pas nécessaire de se poser la question. on va au bout quoi qu'il arrive. 
+
+# le cerveau lit une lettre, un mot, une phrase, mais il n'a que quelques secondes de "souvenirs". ou plutôt peut-être qu'il ne peut se souvenir que d'un nombre limité "d'objets". cette liste étant constamment écrasée par les nouveaux objets que le cerveau est en train d'analyser. un peu comme une file d'attente où on pourrait parler avec chaque personne, mais les gens à un rythme effréné et "poussent le spremiers arrivés dehors.  
+
+ 
