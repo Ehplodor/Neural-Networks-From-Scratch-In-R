@@ -1,89 +1,118 @@
-N <- 1000
-X <- runif(N, -10, 10)
-Y <- runif(N, -10, 10)
+numNeurons <- 1000
+maxAllowedCharge <- 1  # Set this to a suitable value
 
-distances <- matrix(0, N, N)
-for (i in 1:N) {
-  for (j in 1:N) {
-    distances[i, j] <- sqrt((X[j] - X[i])^2 + (Y[j] - Y[i])^2)
+
+xCoordinates <- runif(numNeurons, -10, 10)
+yCoordinates <- runif(numNeurons, -10, 10)
+
+# Calculating distances between all pairs of neurons
+pairwiseDistances <- matrix(0, numNeurons, numNeurons)
+for (i in 1:numNeurons) {
+  for (j in 1:numNeurons) {
+    pairwiseDistances[i, j] <- sqrt((xCoordinates[j] - xCoordinates[i])^2 + (yCoordinates[j] - yCoordinates[i])^2)
   }
 }
 
-connectome <- matrix(0, N, N)
+# Constructing the network of neurons
+neuronNetwork <- matrix(0, numNeurons, numNeurons)
 
-for (i in 1:N) {
-  accessible <- which(distances[i, ] < 1.3)
-  if (length(accessible) > 2) {
-    accessible <- accessible[accessible != i]
-    nbconnexi <- sample(2:length(accessible), 1)
-    connexi <- sample(accessible, nbconnexi)
-    connectome[i, connexi] <- 1
+for (i in 1:numNeurons) {
+  accessibleNeurons <- which(pairwiseDistances[i, ] < 1.3)
+  if (length(accessibleNeurons) > 2) {
+    accessibleNeurons <- accessibleNeurons[accessibleNeurons != i]
+    numConnections <- sample(2:length(accessibleNeurons), 1)
+    connections <- sample(accessibleNeurons, numConnections)
+    neuronNetwork[i, connections] <- 1
   }
 }
 
-puissance <- connectome * matrix(rnorm(N^2, 0, 1), N, N)
+# Generating random strengths for each connection
+connectionStrengths <- neuronNetwork * matrix(rnorm(numNeurons^2, 0, 1), numNeurons, numNeurons)
 
-plot(Y ~ X)
-for (i in 1:N) {
-  connectedto <- which(connectome[i, ] == 1)
-  if (length(connectedto) > 0) {
-    arrows(x0 = rep(X[i], length(connectedto)), y0 = rep(Y[i], length(connectedto)),
-           x1 = X[connectedto], y1 = Y[connectedto],
-           length = 0.05, lwd = abs(puissance[i, connectedto]), col = I(2 + sign(puissance[i, connectedto])))
+# Visualizing the network of neurons
+plot(yCoordinates ~ xCoordinates)
+for (i in 1:numNeurons) {
+  connectedNeurons <- which(neuronNetwork[i, ] == 1)
+  if (length(connectedNeurons) > 0) {
+    arrows(x0 = rep(xCoordinates[i], length(connectedNeurons)), y0 = rep(yCoordinates[i], length(connectedNeurons)),
+           x1 = xCoordinates[connectedNeurons], y1 = yCoordinates[connectedNeurons],
+           length = 0.05, lwd = abs(connectionStrengths[i, connectedNeurons]), col = I(2 + sign(connectionStrengths[i, connectedNeurons])))
   }
 }
 
-nbconfrom <- rowSums(connectome)
-ninput <- 6
-InputNeurons <- tail(order(nbconfrom), ninput)
+# Finding the input and output neurons
+numConnectionsFrom <- rowSums(neuronNetwork)
+numInputNeurons <- 6
+InputNeurons <- tail(order(numConnectionsFrom), numInputNeurons)
 
-nbconto <- colSums(connectome)
-noutput <- 2
-OutputNeurons <- tail(order(nbconto), noutput)
+numConnectionsTo <- colSums(neuronNetwork)
+numOutputNeurons <- 2
+OutputNeurons <- tail(order(numConnectionsTo), numOutputNeurons)
 
-puissance2 <- puissance
+# Copying the original connection strengths
+originalStrengths <- connectionStrengths
 
-puissance <- puissance2
-charge <- rep(0, N)
-unavailable <- rep(0, N)
+# Initializing variables for the simulation
+neuronCharges <- rep(0, numNeurons)
+unavailableNeurons <- rep(0, numNeurons)
 
 windows()
 
-charge[InputNeurons] <- 10
-lastfiring <- c()
-count <- 0
-for (tps in 1:1000) {
-  count <- count + 1
-  if (count == 1) {
-    charge[InputNeurons] <- 10
-    count <- 0
+# Simulating the firing of neurons
+neuronCharges[InputNeurons] <- 10
+lastFiredNeurons <- c()
+counter <- 0
+for (time in 1:1000) {
+  # Pause for 0.1 second (adjust as needed)
+  Sys.sleep(0.1)
+  
+  counter <- counter + 1
+  if (counter == 1) {
+    neuronCharges[InputNeurons] <- 10
+    counter <- 0
   }
 
-  firing <- which(charge > 1)
-  charge[firing] <- 0
-  unavailable[firing] <- 5
-  unavailable <- unavailable - 1
-  unavailable[unavailable < 0] <- 0
-  charge <- 1 * charge
+  firingNeurons <- which(neuronCharges >= 1)
+  neuronCharges[firingNeurons] <- 0
+  unavailableNeurons[firingNeurons] <- 5
+  unavailableNeurons <- unavailableNeurons - 1
+  unavailableNeurons[unavailableNeurons < 0] <- 0
+  neuronCharges <- 1 * neuronCharges
 
-  if (length(firing) > 1) {
-    charging <- colSums(puissance[firing, ])
-  } else if (length(firing) == 1) {
-    charging <- puissance[firing, ]
+  if (length(firingNeurons) > 1) {
+    chargingNeurons <- colSums(connectionStrengths[firingNeurons, ])
+  } else if (length(firingNeurons) == 1) {
+    chargingNeurons <- connectionStrengths[firingNeurons, ]
   } else {
-    charging <- charge * 0
+    chargingNeurons <- neuronCharges * 0
   }
-  charging[unavailable > 0] <- 0
-  charge <- charge + charging
+  
+  chargingNeurons[unavailableNeurons > 0] <- 0
+  neuronCharges <- neuronCharges + chargingNeurons
+  
+  # Limit the charge to the maximum allowed charge
+  neuronCharges[neuronCharges > maxAllowedCharge] <- maxAllowedCharge
 
-  for (i in 1:length(firing)) {
-    reinforcelinkfrom <- lastfiring[connectome[lastfiring, firing[i]] == 1]
-    puissance[reinforcelinkfrom, firing[i]] <- puissance[reinforcelinkfrom, firing[i]] * 1.1
+  for (i in 1:length(firingNeurons)) {
+    reinforceLinksFrom <- lastFiredNeurons[neuronNetwork[lastFiredNeurons, firingNeurons[i]] == 1]
+    connectionStrengths[reinforceLinksFrom, firingNeurons[i]] <- connectionStrengths[reinforceLinksFrom, firingNeurons[i]] * 1.1
   }
 
-  lastfiring <- firing
-  fire <- rep(1, N)
-  fire[firing] <- 2
-  plot(Y ~ X, col = fire, pch = (fire - 1) * 18 + 1)
+  # lastFiredNeurons <- firingNeurons
+  # fire <- rep(1, numNeurons)
+  # fire[firingNeurons] <- 2
+  # plot(yCoordinates ~ xCoordinates, col = fire, pch = (fire - 1) * 18 + 1)
+  
+  # Normalize charge for plotting (adjust the scaling factor as needed)
+  neuronSize <- neuronCharges / max(neuronCharges) * 2
+
+  lastFiredNeurons <- firingNeurons
+  fire <- rep(1, numNeurons)
+  fire[firingNeurons] <- 2
+  plot(yCoordinates ~ xCoordinates, col = fire, pch = (fire - 1) * 18 + 1, cex = neuronSize)
+  
+  # Add maximum charge as text to the plot
+  # text(xCoordinates[1], yCoordinates[1], paste("Max charge:", round(max(neuronCharges), 2)), pos = 4, col = "red")
+  title(main=paste("Max charge:", round(max(neuronCharges), 2)), col = "red")
 }
 
