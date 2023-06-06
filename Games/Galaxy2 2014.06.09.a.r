@@ -201,7 +201,7 @@ for(i in 1:imax){
 		# plot(Galaxy[2,][ordZ]~Galaxy[1,][ordZ], xlim=x.lim,ylim=y.lim, col=rainbow(Nstars2)[1:length(Galaxy[1,])][ordZ], pch=pchsun[ordZ], cex=1)
 		# ordz <- ordZ[length(ordZ):1]
 		# points(Galaxy[2,][ordz]~Galaxy[1,][ordz], col=rainbow(Nstars2)[1:length(Galaxy[1,])][ordz], pch=1, cex=(exp(Galaxy[3,])^.02)[ordz])
-		points(Galaxy[2,][ordz]~Galaxy[1,][ordz], col=rainbow(Nstars2)[1:length(Galaxy[1,])][ordz], pch=1, cex=0.1)
+		points(Galaxy[2,][ordZ]~Galaxy[1,][ordZ], col=rainbow(Nstars2)[1:length(Galaxy[1,])][ordZ], pch=1, cex=0.1)
 	}
 
 	# 2 dim case + tracer les points en cours de route
